@@ -2,6 +2,9 @@
   import { tick } from "svelte";
   import EditIcon from "../icons/EditIcon.svelte";
   import PlusIcon from "../icons/PlusIcon.svelte";
+    import TextIcon from "../icons/TextIcon.svelte";
+    import ImageIcon from "../icons/ImageIcon.svelte";
+    import HeadingIcon from "../icons/HeadingIcon.svelte";
 
   let pageName = "new qrpage";
   let tempName = pageName;
@@ -56,11 +59,26 @@
   <label class="modal-box relative md:max-w-[45rem]" for="">
     <h3 class="text-lg font-bold">add element</h3>
     <div class="flex flex-col w-full md:flex-row mt-4">
-      <div class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">text</div> 
+      <button class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center text-center">
+        <div class="text-center">
+          <HeadingIcon class="w-12 h-12 mx-auto"/>
+          <div>heading</div>
+        </div>
+      </button>
       <div class="divider md:divider-horizontal" />
-      <div class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">image</div>
+      <button class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center text-center">
+        <div>
+          <TextIcon class="w-12 h-12 mx-auto"/>
+          <div>text</div>
+        </div>
+      </button> 
       <div class="divider md:divider-horizontal" />
-      <div class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center">heading</div>
+      <button class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center text-center">
+        <div>
+          <ImageIcon class="w-12 h-12 mx-auto"/>
+          <div>image</div>
+        </div>
+      </button> 
     </div>
   </label>
 </label>
