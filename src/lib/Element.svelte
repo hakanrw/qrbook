@@ -3,14 +3,14 @@
 </script>
 
 {#if data.type === "text"}
-  <textarea class="textarea textarea-bordered w-full" placeholder="text"></textarea>
+  <textarea class="textarea textarea-bordered flex-grow" placeholder="text"></textarea>
 {:else if data.type === "image"}
-  <input type="text" placeholder="image address" class="input input-bordered w-full" />
+  <input type="text" placeholder="image address" class="input input-bordered flex-grow" />
 {:else if data.type === "kvpair"}
-  <div class="flex w-full">
-    <input type="text" placeholder="key" class="grid flex-grow input input-bordered w-full" />
+  <div class="flex flex-grow">
+    <input type="text" placeholder="key" class="grid flex-grow input input-bordered" />
     <div class="divider divider-horizontal"></div>
-    <input type="text" placeholder="value" class="grid flex-grow input input-bordered w-full" />
+    <input type="text" placeholder="value" class="grid flex-grow input input-bordered" />
   </div>
 {:else}
   <div>unknown</div>

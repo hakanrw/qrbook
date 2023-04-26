@@ -7,6 +7,9 @@
   import HeadingIcon from "../icons/HeadingIcon.svelte";
   import { element } from "svelte/internal";
   import Element from "../lib/Element.svelte";
+    import CloseIcon from "../icons/CloseIcon.svelte";
+    import UpIcon from "../icons/UpIcon.svelte";
+    import DownIcon from "../icons/DownIcon.svelte";
 
   let elements = [];
   let counter = 0;
@@ -43,10 +46,25 @@
       <div class="mb-[3px]">{pageName}</div>
       <EditIcon class="w-6 h-6" />
     </label>
-    {#each elements as element (element.id)}
+    {#each elements as element, i (element.id)}
       <div class="divider my-1"/>
-      <div class="px-2">
+      <div class="px-2 flex flex-row items-center gap-2 text-stone-400">
         <Element data={element} />
+        <div class="flex flex-col items-center">
+          {#if i !== 0}
+          <button on:click={() => elements.splice(i - 1, 0, elements.splice(i, 1)[0]) && (elements = elements) }>
+            <UpIcon class="w-6 h-6"/>
+          </button>
+          {/if}
+          <button on:click={() => elements = elements.filter((el) => el.id != element.id)}>
+            <CloseIcon class="w-8 h-8"/>
+          </button>
+          {#if i !== elements.length - 1}
+          <button on:click={() => elements.splice(i + 1, 0, elements.splice(i, 1)[0]) && (elements = elements) }>
+            <DownIcon class="w-6 h-6"/>
+          </button>
+          {/if}
+        </div>
       </div>
     {/each}
     <div class="divider my-1"/>
