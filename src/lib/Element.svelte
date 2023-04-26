@@ -8,9 +8,9 @@
   <input type="text" placeholder="image address" class="input input-bordered flex-grow" />
 {:else if data.type === "kvpair"}
   <div class="flex flex-grow">
-    <input type="text" placeholder="key" class="grid flex-grow input input-bordered" />
-    <div class="divider divider-horizontal"></div>
-    <input type="text" placeholder="value" class="grid flex-grow input input-bordered" />
+    <input type="text" placeholder="key" class="grid w-24 sm:w-48 input input-bordered" />
+    <div class="divider divider-horizontal mx-0 sm:mx-2"></div>
+    <input type="text" placeholder="value" class="grid w-0 flex-grow input input-bordered" />
   </div>
 {:else}
   <div>unknown</div>

@@ -48,9 +48,9 @@
     </label>
     {#each elements as element, i (element.id)}
       <div class="divider my-1"/>
-      <div class="px-2 flex flex-row items-center gap-2 text-stone-400">
+      <div class="sm:px-2 flex flex-row items-center gap-2 text-stone-500">
         <Element data={element} />
-        <div class="flex flex-col items-center">
+        <div class="flex flex-col items-center text-stone-400">
           {#if i !== 0}
           <button on:click={() => elements.splice(i - 1, 0, elements.splice(i, 1)[0]) && (elements = elements) }>
             <UpIcon class="w-6 h-6"/>
@@ -102,22 +102,22 @@
 <label for="element-toggle-create" class="modal cursor-pointer">
   <label class="modal-box relative md:max-w-[45rem]" for="">
     <h3 class="text-lg font-bold">add element</h3>
-    <div class="flex flex-col w-full md:flex-row mt-4">
-      <button class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center text-center" on:click={addText}>
+    <div class="flex flex-col w-full sm:flex-row mt-4">
+      <button class="grid sm:w-[33%] h-32 card bg-base-300 rounded-box place-items-center text-center" on:click={addText}>
         <div>
           <TextIcon class="w-12 h-12 mx-auto"/>
           <div>text</div>
         </div>
       </button>
-      <div class="divider md:divider-horizontal" />
-      <button class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center text-center" on:click={addImage}>
+      <div class="divider sm:divider-horizontal" />
+      <button class="grid sm:w-[33%] h-32 card bg-base-300 rounded-box place-items-center text-center" on:click={addImage}>
         <div>
           <ImageIcon class="w-12 h-12 mx-auto"/>
           <div>image</div>
         </div>
       </button> 
-      <div class="divider md:divider-horizontal" />
-      <button class="grid flex-grow h-32 card bg-base-300 rounded-box place-items-center text-center" on:click={addKVPair}>
+      <div class="divider sm:divider-horizontal" />
+      <button class="grid sm:w-[33%] h-32 card bg-base-300 rounded-box place-items-center text-center" on:click={addKVPair}>
         <div class="text-center">
           <HeadingIcon class="w-12 h-12 mx-auto"/>
           <div>key value pair</div>
@@ -128,7 +128,4 @@
 </label>
 
 <style>
-  button.flex-grow {
-    flex-basis: 100%;
-  }
 </style>
