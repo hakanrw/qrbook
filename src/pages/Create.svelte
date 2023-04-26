@@ -1,15 +1,15 @@
 <script>
   import { tick } from "svelte";
+  import { element } from "svelte/internal";
   import EditIcon from "../icons/EditIcon.svelte";
   import PlusIcon from "../icons/PlusIcon.svelte";
   import TextIcon from "../icons/TextIcon.svelte";
   import ImageIcon from "../icons/ImageIcon.svelte";
   import HeadingIcon from "../icons/HeadingIcon.svelte";
-  import { element } from "svelte/internal";
   import Element from "../lib/Element.svelte";
-    import CloseIcon from "../icons/CloseIcon.svelte";
-    import UpIcon from "../icons/UpIcon.svelte";
-    import DownIcon from "../icons/DownIcon.svelte";
+  import CloseIcon from "../icons/CloseIcon.svelte";
+  import UpIcon from "../icons/UpIcon.svelte";
+  import DownIcon from "../icons/DownIcon.svelte";
 
   let elements = [];
   let counter = 0;
@@ -29,7 +29,7 @@
     elements = elements.concat([
       {
         id: counter,
-        value: "",
+        value: type === "kvpair" ? [["", ""]] : "",
         type
       }
     ]);
@@ -38,6 +38,10 @@
   let addText = () => addElement("text");
   let addImage = () => addElement("image");
   let addKVPair = () => addElement("kvpair");
+
+  function updateElement(idx) {
+    return (value) => {elements[idx].value = value; console.log(elements)};
+  }
 </script>
 
 <div class="px-5 mt-16">
@@ -49,7 +53,7 @@
     {#each elements as element, i (element.id)}
       <div class="divider my-1"/>
       <div class="sm:px-2 flex flex-row items-center gap-2 text-stone-500">
-        <Element data={element} />
+        <Element data={element} onUpdate={updateElement(i)} />
         <div class="flex flex-col items-center text-stone-400">
           {#if i !== 0}
           <button on:click={() => elements.splice(i - 1, 0, elements.splice(i, 1)[0]) && (elements = elements) }>
