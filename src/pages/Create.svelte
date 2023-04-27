@@ -42,6 +42,10 @@
   function updateElement(idx) {
     return (value) => {elements[idx].value = value; console.log(elements)};
   }
+
+  function createPage() {
+
+  }
 </script>
 
 <div class="px-5 mt-16">
@@ -78,7 +82,7 @@
     </label>
   </div>
   <div class="mx-auto max-w-[650px] flex flex-row justify-end mt-5">
-    <button class="elevate btn btn-primary">
+    <button class="elevate btn btn-primary" on:click={createPage}>
       create
     </button>
   </div>

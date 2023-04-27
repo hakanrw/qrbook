@@ -4,8 +4,10 @@
     import LogInIcon from "../icons/LogInIcon.svelte";
 </script>
 
+<div class="text-4xl text-primary font-bold text-center only-on-print">qrbook</div>
+
 <nav>
-  <div class="navbar elevate bg-primary text-primary-content">
+  <div class="navbar elevate bg-primary text-primary-content hidden-print">
     <div class="flex-1">
       <Link to="/" class="btn btn-ghost normal-case text-xl">
         <LogoIcon class="w-8 h-8" />
