@@ -10,6 +10,11 @@
   import CloseIcon from "../icons/CloseIcon.svelte";
   import UpIcon from "../icons/UpIcon.svelte";
   import DownIcon from "../icons/DownIcon.svelte";
+  import { functions } from "../lib/firebase";
+  import { httpsCallable } from "firebase/functions";
+  import { useNavigate } from "svelte-navigator";
+
+  const navigate = useNavigate();
 
   let elements = [];
   let counter = 0;
@@ -43,8 +48,22 @@
     return (value) => {elements[idx].value = value; console.log(elements)};
   }
 
-  function createPage() {
+  let message = null;
 
+  const createPageCallable = httpsCallable(functions, "createPage");
+
+  function createPage() {
+    message = ["info", "creating page..."];
+    createPageCallable({ data: elements, title: pageName }).then((data) => {
+      data = data.data;
+      console.log(data);
+
+      if (data.status !== "success") {
+        message = [data.status, data.message];
+      } else {
+        navigate("/" + data.url);
+      }
+    })
   }
 </script>
 
@@ -81,6 +100,22 @@
       <div>add element</div>
     </label>
   </div>
+  {#if message && message[0] === "info"}
+  <div class="alert alert-info shadow-lg mt-5 mx-auto max-w-[650px]">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <span>{message[1]}</span>
+    </div>
+  </div>
+{/if}
+  {#if message && message[0] === "error"}
+    <div class="alert alert-error shadow-lg mt-5 mx-auto max-w-[650px]">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span>{message[1]}</span>
+      </div>
+    </div>
+  {/if}
   <div class="mx-auto max-w-[650px] flex flex-row justify-end mt-5">
     <button class="elevate btn btn-primary" on:click={createPage}>
       create

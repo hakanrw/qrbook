@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getAuth, connectAuthEmulator, signInWithPopup } from "firebase/auth";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
@@ -38,3 +38,39 @@ if (location.hostname === "localhost") {
     connectFirestoreEmulator(firestore, "127.0.0.1", 8080);
     connectStorageEmulator(storage, "127.0.0.1", 9199);
 }
+
+import { GoogleAuthProvider } from "firebase/auth";
+import { writable } from "svelte/store";
+
+export const provider = new GoogleAuthProvider();
+
+export function logIn() {
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+    console.log(user);
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+    console.error(errorCode, errorMessage);
+  });
+}
+
+export const user = writable(auth.currentUser);
+
+auth.onAuthStateChanged((u) => {
+  user.set(u);
+  console.log(u);
+})

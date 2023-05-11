@@ -1,11 +1,15 @@
 <script>
   import ElementView from "../lib/ElementView.svelte";
-  import { useParams } from "svelte-navigator";
+  import { useNavigate, useParams } from "svelte-navigator";
   import Qr from "../lib/QR.svelte";
-    import DownloadIcon from "../icons/DownloadIcon.svelte";
-    import PrintIcon from "../icons/PrintIcon.svelte";
+  import DownloadIcon from "../icons/DownloadIcon.svelte";
+  import PrintIcon from "../icons/PrintIcon.svelte";
+  import { onMount } from "svelte";
+  import { firestore } from "../lib/firebase";
+  import { collection, doc, getDoc } from "firebase/firestore";
 	
   const params = useParams();
+  const navigate = useNavigate();
 
   $: console.log($params);
 
@@ -26,9 +30,21 @@
     {
       type: "text",
       value: "qrbook sitesinin yapımcısı"
-    },
-    
+    }
   ]
+
+  onMount(async () => {
+    const docRef = await getDoc(doc(firestore, "pages", $params.page));
+    if (!docRef.exists()) navigate("/");
+    
+    let data = docRef.data().pageData;
+    console.log(data);
+    for (const oneData of data) {
+      if (oneData.type === "kvpair") oneData.value = Object.entries(oneData.value);
+    }
+
+    elements = data;
+  })
 </script>
 
 

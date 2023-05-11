@@ -3,8 +3,7 @@
   import LogoIcon from "../icons/LogoIcon.svelte";
   import PlusIcon from "../icons/PlusIcon.svelte";
   import LogInIcon from "../icons/LogInIcon.svelte";
-
-  let loggedIn = true;
+  import { logIn, user } from "../lib/firebase";
 
 </script>
 
@@ -16,13 +15,13 @@
   </div>
     
   <div class="flex-1"/>
-  {#if loggedIn}
+  {#if $user}
     <Link to="/create" class="mt-10 paper mx-auto md:mx-0 max-w-[300px] md:w-[200px] text-center p-8 text-primary text-xl block">
       <PlusIcon class="w-12 h-12 mx-auto mb-3" />
       create new
     </Link>
   {:else}
-    <button class="mt-10 paper mx-auto md:mx-0 max-w-[300px] md:w-[200px] w-full text-center p-8 text-primary text-xl block">
+    <button on:click={logIn} class="mt-10 paper mx-auto md:mx-0 max-w-[300px] md:w-[200px] w-full text-center p-8 text-primary text-xl block">
       <LogInIcon class="w-12 h-12 mx-auto mb-3" />
       log in
     </button>
