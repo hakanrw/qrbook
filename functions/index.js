@@ -4,8 +4,12 @@ const { onRequest } = require("firebase-functions/v1/https");
 // The Firebase Admin SDK to access Firestore.
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
+const { getStorage } = require("firebase-admin/storage");
 
 initializeApp();
+
+const db = getFirestore();
+const storage = getStorage().bucket();
 
 const createPage = async (data, context) => {
   if (!context.auth) return { message: "you need to authorize", status: "error" };
@@ -15,8 +19,6 @@ const createPage = async (data, context) => {
   const author = context.auth.uid;
 
   const isAdmin = context.auth.token.email === "imparatorahmett@gmail.com";
-
-  const db = getFirestore();
 
   // SPAM PROTECTION BEGIN
   const spamProtection = await Promise.all([
@@ -99,8 +101,17 @@ const createPage = async (data, context) => {
 }
 
 const onImageUpload = async (object, context) =>  {
-  console.log(context);
-  console.log(object);
+
+  const result = await db.collection("images").where("author", "==", object.metadata.uid).where("createdAt", ">=", Date.now() - 60 * 60 * 1000).count().get();
+  const imageCount = result.data().count;
+
+  if (imageCount > 10) {
+    await storage.file(object.name).delete();
+    return;
+  }
+
+
+  await db.collection("images").doc(object.name.replace("images/", "")).set({ path: object.name, author: object.metadata.uid, createdAt: Date.now() });
 }
 
 module.exports = {

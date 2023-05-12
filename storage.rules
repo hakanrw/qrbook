@@ -5,7 +5,8 @@ service firebase.storage {
       // Only allow uploads of any image file that's less than 5MB
       allow write: if request.resource.size < 5 * 1024 * 1024
                    && request.resource.contentType.matches('image/.*')
-                   && request.auth != null;
+                   && request.auth != null
+                   && request.resource.metadata.uid == request.auth.uid;
       allow read: if true;
     }
   }

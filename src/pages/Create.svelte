@@ -10,7 +10,7 @@
   import CloseIcon from "../icons/CloseIcon.svelte";
   import UpIcon from "../icons/UpIcon.svelte";
   import DownIcon from "../icons/DownIcon.svelte";
-  import { functions } from "../lib/firebase";
+  import { auth, functions } from "../lib/firebase";
   import { httpsCallable } from "firebase/functions";
   import { useNavigate } from "svelte-navigator";
     import { getStorage, ref, uploadBytes } from "firebase/storage";
@@ -94,10 +94,15 @@
     for (const image of images) { 
       if (!image.value.startsWith("blob")) return;
       const imageRef = ref(storage, `images/${image.value.slice(image.value.lastIndexOf('/') + 1)}.jpg`);
-      const result = await uploadBytes(imageRef, await getFileBlob(image.value));
-      console.log(result);
-      image.uploadedURL = result.ref.fullPath;
-      console.log(image);
+      try {
+        const result = await uploadBytes(imageRef, await getFileBlob(image.value), {customMetadata: { 'uid': auth.currentUser.uid }});
+        console.log(result);
+        image.uploadedURL = result.ref.fullPath;
+        console.log(image);
+      } catch (error) {
+        message = ["error", error];
+        return;
+      }
     }
 
   }
