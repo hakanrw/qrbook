@@ -12,7 +12,12 @@
 {#if data.type === "text"}
   <textarea class="textarea textarea-bordered flex-grow" placeholder="text" on:change={(e) => onUpdate(e.target.value)}>{data.value}</textarea>
 {:else if data.type === "image"}
-  <input type="text" autocomplete="new-password" placeholder="image address" class="input input-bordered flex-grow" on:change={(e) => onUpdate(e.target.value)} value={data.value} />
+  <div class="w-full">
+    <input accept="image/*" type="file" class="file-input file-input-bordered w-full " on:change={(e) => onUpdate(URL.createObjectURL(e.target.files[0]))} />
+    {#if data.value}
+      <img src={data.value} alt="image" class="mx-auto mt-3" />
+    {/if}
+  </div>
 {:else if data.type === "kvpair"}
   <div class="flex-grow">
     {#each data.value as entry, i}
@@ -37,6 +42,9 @@
 {/if}
 
 <style>
+  img {
+    max-height: 300px;
+  }
   .textarea {
     font-size: 1rem;
   }

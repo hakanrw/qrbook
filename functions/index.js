@@ -65,6 +65,10 @@ const createPage = async (data, context) => {
         oneData.value = Object.fromEntries(oneData.value);
       }
     }
+    if (oneData.type === "image") {
+      oneData.value = oneData.uploadedURL;
+      delete oneData.uploadedURL;
+    }
   }
 
   if (badData) {
@@ -89,11 +93,17 @@ const createPage = async (data, context) => {
   await db
     .collection("pages")
     .doc(url)
-    .set({ pageData, author, authorName, authorPicture, createdAt: Date.now()});
+    .set({ title: data.title, pageData, author, authorName, authorPicture, createdAt: Date.now()});
 
   return { url, message: "successfully created page", status: "success" };
 }
 
+const onImageUpload = async (object, context) =>  {
+  console.log(context);
+  console.log(object);
+}
+
 module.exports = {
   createPage: functions.region("europe-west1").https.onCall(createPage),
+  onImageUpload: functions.storage.object().onFinalize(onImageUpload),
 }

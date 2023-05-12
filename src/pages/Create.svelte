@@ -13,6 +13,7 @@
   import { functions } from "../lib/firebase";
   import { httpsCallable } from "firebase/functions";
   import { useNavigate } from "svelte-navigator";
+    import { getStorage, ref, uploadBytes } from "firebase/storage";
 
   const navigate = useNavigate();
 
@@ -52,18 +53,53 @@
 
   const createPageCallable = httpsCallable(functions, "createPage");
 
-  function createPage() {
+  async function createPage() {
     message = ["info", "creating page..."];
+
+    let images = elements.filter(element => element.type === "image");
+    if (images.length > 0) await uploadImages(images);
+    elements = elements;
+
+    
     createPageCallable({ data: elements, title: pageName }).then((data) => {
       data = data.data;
       console.log(data);
 
       if (data.status !== "success") {
-        message = [data.status, data.message];
+        message = [data.status, data.message]; 
       } else {
         navigate("/" + data.url);
       }
     })
+  }
+
+  const storage = getStorage();
+
+  const getFileBlob = function (url) {
+    return new Promise((resolve, reject) => {
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url);
+      xhr.responseType = "blob";
+      xhr.addEventListener('load', function() {
+        resolve(xhr.response);
+      });
+      xhr.send();
+    })
+  };
+
+  async function uploadImages(images) {
+    message = ["info", "uploading images..."];
+
+    for (const image of images) { 
+      if (!image.value.startsWith("blob")) return;
+      const imageRef = ref(storage, `images/${image.value.slice(image.value.lastIndexOf('/') + 1)}.jpg`);
+      const result = await uploadBytes(imageRef, await getFileBlob(image.value));
+      console.log(result);
+      image.uploadedURL = result.ref.fullPath;
+      console.log(image);
+    }
+
   }
 </script>
 

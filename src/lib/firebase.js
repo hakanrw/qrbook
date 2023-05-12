@@ -6,7 +6,7 @@ import { getAuth, connectAuthEmulator, signInWithPopup } from "firebase/auth";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import { getStorage, connectStorageEmulator } from "firebase/storage"
+import { getStorage, connectStorageEmulator } from "firebase/storage";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -33,10 +33,10 @@ export const firestore = getFirestore(app);
 export const storage = getStorage(app);
 
 if (location.hostname === "localhost") {
-    connectAuthEmulator(auth, "http://127.0.0.1:9099");
-    connectFunctionsEmulator(functions, "127.0.0.1", 5001);
-    connectFirestoreEmulator(firestore, "127.0.0.1", 8080);
-    connectStorageEmulator(storage, "127.0.0.1", 9199);
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  connectFunctionsEmulator(functions, "127.0.0.1", 5001);
+  connectFirestoreEmulator(firestore, "127.0.0.1", 8080);
+  connectStorageEmulator(storage, "127.0.0.1", 9199);
 }
 
 import { GoogleAuthProvider } from "firebase/auth";

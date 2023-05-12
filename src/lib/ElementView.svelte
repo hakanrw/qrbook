@@ -1,14 +1,25 @@
 <script>
-  export let data;
+  import { getDownloadURL } from "firebase/storage";
+  import { storage } from "./firebase";
+  import { ref } from "firebase/storage";
+  
+  export let data; 
+  let downloadURL;
+
+  if (data.type === "image") {
+    getDownloadURL(ref(storage, data.value)).then(url => {
+      downloadURL = url;
+    });
+  }
 </script>
 
 
 {#if data.type === "text"}
-  <div class="px-4 py-2">{data.value}</div>
+  <div class="px-4 py-2">{data.value}</div> 
 {:else if data.type === "image"}
-  <img src={data.value} alt="image" class="mx-auto" />
+  <img src={downloadURL} alt="image" class="mx-auto" />
 {:else if data.type === "kvpair"}
-  <div>
+  <div> 
     {#each data.value as entry, i}
       {#if i !== 0}
         <div class="divider my-0 h-0"/>
