@@ -22,8 +22,8 @@ const createPage = async (data, context) => {
 
   // SPAM PROTECTION BEGIN
   const spamProtection = await Promise.all([
-    db.collection("messages").where("author", "==", author).orderBy("createdAt", "desc").limit(1).get(),
-    db.collection("messages").where("author", "==", author).where("createdAt", ">=", Date.now() - 60 * 60 * 1000).count().get(),
+    db.collection("pages").where("author", "==", author).orderBy("createdAt", "desc").limit(1).get(),
+    db.collection("pages").where("author", "==", author).where("createdAt", ">=", Date.now() - 60 * 60 * 1000).count().get(),
     db.collection("server").doc("status").get(),
   ]);
 
@@ -116,5 +116,5 @@ const onImageUpload = async (object, context) =>  {
 
 module.exports = {
   createPage: functions.region("europe-west1").https.onCall(createPage),
-  onImageUpload: functions.storage.object().onFinalize(onImageUpload),
+  onImageUpload: functions.region("europe-west1").storage.object().onFinalize(onImageUpload),
 }
