@@ -157,7 +157,7 @@
       </div>
     </div>
   {/if}
-  <div class="mx-auto max-w-[650px] flex flex-row justify-end mt-5">
+  <div class="mx-auto max-w-[650px] flex flex-row justify-end my-5">
     <button class="elevate btn btn-primary" on:click={createPage}>
       create
     </button>
