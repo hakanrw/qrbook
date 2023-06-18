@@ -1,22 +1,32 @@
 <script>
   import { collection, getDocs, limit, query, where } from "firebase/firestore";
   import { onMount } from "svelte";
-  import { auth, firestore, user } from "../lib/firebase";
+  import { auth, firestore, functions, user } from "../lib/firebase";
   import { Link } from "svelte-navigator";
   import Qr from "../lib/QR.svelte";
   import TrashIcon from "../icons/TrashIcon.svelte";
-    import PrintIcon from "../icons/PrintIcon.svelte";
+  import PrintIcon from "../icons/PrintIcon.svelte";
+  import { httpsCallable } from "firebase/functions";
 
   let pages = [];
  
   async function load() {
     const q = query(collection(firestore, "pages"), where("author", "==", $user.uid), limit(20));
     const querySnapshot = await getDocs(q);
+    pages = [];
     querySnapshot.forEach((doc) => { 
       pages.push({ ...doc.data(), id: doc.id });
     });
-    pages = pages;
+    pages = pages; 
     console.log(pages);
+  }
+
+  const deletePageCallable = httpsCallable(functions, "deletePage");
+
+  async function deletePage(pageId) {
+    let res = await deletePageCallable({ page: pageId });
+    console.log(res);
+    load();
   }
 
   $: load($user); 
@@ -25,7 +35,7 @@
 
 <div class="px-5 mt-16">
   {#each pages as page (page.id)}
-    <div class="mx-auto max-w-[650px] flex items-center gap-5 mb-5">
+    <div class="mx-auto max-w-[650px] flex items-center gap-5 mt-5">
       <Link to={"/" + page.id} class="flex-1">
         <div class="paper  p-4 text-stone-500">
           <div class="flex items-center">
@@ -35,7 +45,7 @@
           </div>
         </div>
       </Link>
-      <button class="hidden-print"><TrashIcon class="w-8 h-8"/></button>
+      <button on:click={() => deletePage(page.id)} class="hidden-print"><TrashIcon class="w-8 h-8"/></button>
     </div>
     <div class="text-center my-4 only-on-print">{window.location.hostname + "/" + page.id}</div>
   {/each}

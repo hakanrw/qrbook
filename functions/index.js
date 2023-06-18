@@ -100,6 +100,30 @@ const createPage = async (data, context) => {
   return { url, message: "successfully created page", status: "success" };
 }
 
+const deletePage = async (data, context) => {
+  if (!context.auth) return { message: "you need to authorize", status: "error" };
+  
+  const author = context.auth.uid;
+  const pageId = data.page;
+
+  const page = (await db.collection("pages").doc(pageId).get()).data();
+
+  if (page.author !== author) {
+    return { message: "you do not own this page", status: "error" };
+  }
+
+  const pageImages = page.pageData.filter(data => data.type === "image").map(data => data.value);
+
+  for (image of pageImages) {
+    db.collection("images").doc(image.replace("images/", "")).delete();
+    storage.file(image).delete();
+  }
+
+  await db.collection("pages").doc(pageId).delete();
+
+  return { status: "success", message: "successfully deleted page" };
+}
+
 const onImageUpload = async (object, context) =>  {
 
   const result = await db.collection("images").where("author", "==", object.metadata.uid).where("createdAt", ">=", Date.now() - 60 * 60 * 1000).count().get();
@@ -116,5 +140,6 @@ const onImageUpload = async (object, context) =>  {
 
 module.exports = {
   createPage: functions.region("europe-west1").https.onCall(createPage),
+  deletePage: functions.region("europe-west1").https.onCall(deletePage),
   onImageUpload: functions.region("europe-west1").storage.object().onFinalize(onImageUpload),
 }

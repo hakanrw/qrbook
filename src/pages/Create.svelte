@@ -113,7 +113,7 @@
   }
 </script>
 
-<div class="px-5 mt-16">
+<div class="px-5 mt-16 mb-16">
   <div class="paper mx-auto max-w-[650px] p-4 text-center text-stone-500">
     <label for="edit-toggle-create" class="normal-case text-primary btn btn-ghost mx-auto text-2xl font-bold justify-center items-center inline-flex flex-row space-x-2">
       <div class="mb-[3px]">{pageName}</div>
