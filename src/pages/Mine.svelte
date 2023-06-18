@@ -41,13 +41,13 @@
           <div class="flex items-center">
             <div class="only-on-print h-[100px] w-[100px]"></div>
             <div class="flex-1 text-center text-primary text-xl font-bold">{page.title}</div>
-            <Qr address={window.location.hostname + "/" + page.id} height="100" width="100"/>
+            <Qr address={"https://" + window.location.origin + "/" + page.id} height="100" width="100"/>
           </div>
         </div>
       </Link>
       <button on:click={() => deletePage(page.id)} class="hidden-print"><TrashIcon class="w-8 h-8"/></button>
     </div>
-    <div class="text-center my-4 only-on-print">{window.location.hostname + "/" + page.id}</div>
+    <div class="text-center my-4 only-on-print">{window.location.origin + "/" + page.id}</div>
   {/each}
 </div>
 
