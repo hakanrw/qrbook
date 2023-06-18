@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, connectAuthEmulator, signInWithPopup } from "firebase/auth";
+import { getAuth, connectAuthEmulator, signInWithPopup, signOut } from "firebase/auth";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
@@ -66,6 +66,10 @@ export function logIn() {
     // ...
     console.error(errorCode, errorMessage);
   });
+}
+
+export function logOut() {
+  signOut(auth);
 }
 
 export const user = writable(auth.currentUser);

@@ -1,6 +1,8 @@
 <script>
   import { onMount } from "svelte";
 
+  export let width = 200;
+  export let height = 200;
   export let address; 
 
   onMount(() => {
@@ -13,8 +15,8 @@
     script.onload = function() {
       new QRCode("qrcode", {
         text: address,
-        width: 200,
-        height: 200,
+        width: width,
+        height: height,
         colorDark : "#000000", 
         colorLight : "#ffffff",
         correctLevel : QRCode.CorrectLevel.H
@@ -23,7 +25,7 @@
   });
 </script>
 
-<div id="qrcode" class="h-[200px] w-[200px] mx-auto"></div>
+<div id="qrcode" class="mx-auto" style={`width: ${width}px; height: ${height}px`}></div>
 
 <style>
 

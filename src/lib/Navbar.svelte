@@ -2,7 +2,10 @@
     import { Link } from "svelte-navigator";
     import LogoIcon from "../icons/LogoIcon.svelte";
     import LogInIcon from "../icons/LogInIcon.svelte";
-    import { logIn, user } from "./firebase";
+    import { logIn, logOut, user } from "./firebase";
+    import ProfileIcon from "../icons/ProfileIcon.svelte";
+    import PaperIcon from "../icons/PaperIcon.svelte";
+    import LogOutIcon from "../icons/LogOutIcon.svelte";
 
 </script>
 
@@ -21,6 +24,16 @@
         <button class="btn btn-square btn-ghost" on:click={logIn}>
           <LogInIcon class="w-6 h-6" />       
         </button>
+      </div>
+    {:else}
+      <div class="flex-none">
+        <div class="dropdown dropdown-end">
+          <label tabindex="0" class="btn btn-ghost"><ProfileIcon class="w-6 h-6"/></label>
+          <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-neutral">
+            <li><Link to="/mine"><PaperIcon />my qrpages</Link></li>
+            <li><button on:click={logOut}><LogOutIcon />log out</button></li>
+          </ul>
+        </div>
       </div>
     {/if}
   </div>
