@@ -13,7 +13,7 @@
   import { auth, functions } from "../lib/firebase";
   import { httpsCallable } from "firebase/functions";
   import { useNavigate } from "svelte-navigator";
-    import { getStorage, ref, uploadBytes } from "firebase/storage";
+  import { getStorage, ref, uploadBytes } from "firebase/storage";
 
   const navigate = useNavigate();
 
@@ -57,7 +57,13 @@
     message = ["info", "creating page..."];
 
     let images = elements.filter(element => element.type === "image");
-    if (images.length > 0) await uploadImages(images);
+    if (images.length > 0) { 
+      let error = await uploadImages(images);
+      if (error) { 
+        message = ["error", error];
+        return;
+      }
+    }
     elements = elements;
 
     
@@ -100,8 +106,7 @@
         image.uploadedURL = result.ref.fullPath;
         console.log(image);
       } catch (error) {
-        message = ["error", error];
-        return;
+        return error;
       }
     }
 

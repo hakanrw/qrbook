@@ -25,7 +25,7 @@
 
 <div class="px-5 mt-16">
   {#each pages as page (page.id)}
-    <div class="mx-auto max-w-[650px] flex items-center gap-5">
+    <div class="mx-auto max-w-[650px] flex items-center gap-5 mb-5">
       <Link to={"/" + page.id} class="flex-1">
         <div class="paper  p-4 text-stone-500">
           <div class="flex items-center">

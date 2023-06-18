@@ -4,16 +4,15 @@
   export let width = 200;
   export let height = 200;
   export let address; 
+  let id = Math.floor(Math.random() * 10000);
 
-  onMount(() => {
-
-    
+  onMount(() => {    
 		let script = document.createElement('script');
     script.src = "/qrcode.min.js"
     document.head.append(script);
 
     script.onload = function() {
-      new QRCode("qrcode", {
+      new QRCode("qrcode-" + id, {
         text: address,
         width: width,
         height: height,
@@ -25,8 +24,4 @@
   });
 </script>
 
-<div id="qrcode" class="mx-auto" style={`width: ${width}px; height: ${height}px`}></div>
-
-<style>
-
-</style>
+<div id={"qrcode-" + id} class="mx-auto" style={`width: ${width}px; height: ${height}px`}></div>
