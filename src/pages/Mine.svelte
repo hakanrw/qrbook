@@ -8,6 +8,7 @@
   import PrintIcon from "../icons/PrintIcon.svelte";
   import { httpsCallable } from "firebase/functions";
     import LoadIcon from "../icons/LoadIcon.svelte";
+    import PlusIcon from "../icons/PlusIcon.svelte";
 
   let pages = null;
  
@@ -61,9 +62,17 @@
       </div>
     </button>
   {:else}
-    <div class="mt-16">
-      <div class="paper">you currently have no qrpages</div>
+    <div class="flex flex-col gap-5 mt-10 items-center">
+
+    <div class="paper w-[400px] p-3 font-bold text-center text-primary text-xl">you currently have no qrpages</div>
+
+    <Link to="/create" class="paper w-[400px] p-4 flex items-center gap-5 text-primary text-xl block">
+      <PlusIcon class="w-10 h-10" />
+      create new qrpage
+    </Link> 
+
     </div>
+
   {/if}
 {:else}
   <LoadIcon class="w-24 text-primary mx-auto animate-spin h-[calc(100vh-100px)]"/>

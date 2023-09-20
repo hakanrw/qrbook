@@ -30,7 +30,7 @@
         <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-ghost"><ProfileIcon class="w-6 h-6"/></label>
           <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-neutral">
-            <li><Link to="/mine"><PaperIcon />my qrpages</Link></li>
+            <li><Link to="/mine"><PaperIcon class="w-6 h-6"/>my qrpages</Link></li>
             <li><button on:click={logOut}><LogOutIcon />log out</button></li>
           </ul>
         </div>
