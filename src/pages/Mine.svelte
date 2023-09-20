@@ -62,11 +62,11 @@
       </div>
     </button>
   {:else}
-    <div class="flex flex-col gap-5 mt-10 items-center">
+    <div class="flex flex-col gap-5 mt-10 mx-10 items-center">
 
-    <div class="paper w-[400px] p-3 font-bold text-center text-primary text-xl">you currently have no qrpages</div>
+    <div class="paper w-full max-w-[400px] p-3 font-bold text-center text-primary text-xl">you currently have no qrpages</div>
 
-    <Link to="/create" class="paper w-[400px] p-4 flex items-center gap-5 text-primary text-xl block">
+    <Link to="/create" class="paper w-full max-w-[400px] p-4 flex items-center gap-5 text-primary text-xl block">
       <PlusIcon class="w-10 h-10" />
       create new qrpage
     </Link> 

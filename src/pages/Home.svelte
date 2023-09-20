@@ -17,16 +17,16 @@
     
   <div/>
   {#if $user}
-    <Link to="/create" class="paper w-[400px] p-4 flex items-center gap-5 text-primary text-xl block">
+    <Link to="/create" class="paper w-full max-w-[400px] p-4 flex items-center gap-5 text-primary text-xl block">
       <PlusIcon class="w-10 h-10" />
       create new qrpage
     </Link>
-    <Link to="/mine" class="paper w-[400px] p-4 flex items-center gap-5 text-primary text-xl block">
+    <Link to="/mine" class="paper w-full max-w-[400px] p-4 flex items-center gap-5 text-primary text-xl block">
       <PaperIcon class="w-10 h-10" />
       see your qrpages
     </Link>
   {:else}
-    <button on:click={logIn} class="paper w-[400px] p-4 flex items-center gap-5 text-primary text-xl block">
+    <button on:click={logIn} class="paper w-full max-w-[400px] p-4 flex items-center gap-5 text-primary text-xl block">
       <LogInIcon class="w-10 h-10" />
       log in
     </button>
