@@ -28,7 +28,7 @@
   {:else}
     <button on:click={logIn} class="paper w-full max-w-[400px] p-4 flex items-center gap-5 text-primary text-xl block">
       <LogInIcon class="w-10 h-10" />
-      log in
+      log in to qrbook
     </button>
   {/if}
 
