@@ -98,7 +98,7 @@
     message = ["info", "uploading images..."];
 
     for (const image of images) { 
-      if (!image.value.startsWith("blob")) return;
+      if (!image.value.startsWith("blob")) return "please select image";
       const imageRef = ref(storage, `images/${image.value.slice(image.value.lastIndexOf('/') + 1)}.jpg`);
       try {
         const result = await uploadBytes(imageRef, await getFileBlob(image.value), {customMetadata: { 'uid': auth.currentUser.uid }});
